@@ -176,14 +176,6 @@
 		z-index: 20;
 		background: rgba(0, 0, 0, 0.5);
 	}
-	/* the panel is always up on large screens: main shifts right of it when
-	   the centering gutter alone is too narrow */
-	@media (min-width: 64rem) {
-		main {
-			margin-left: max(13.5rem, calc(50vw - 45rem));
-			margin-right: 1rem;
-		}
-	}
 	/* small screens: the panel becomes a hamburger drawer */
 	@media (max-width: 64rem) {
 		nav {
@@ -257,6 +249,15 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.4rem;
+	}
+	/* the panel is always up on large screens: main shifts right of it when
+	   the centering gutter alone is too narrow (must follow the base rule —
+	   same specificity, order decides) */
+	@media (min-width: 64rem) {
+		main {
+			margin-left: max(13.5rem, calc(50vw - 45rem));
+			margin-right: 1rem;
+		}
 	}
 
 	h1 {
