@@ -7,6 +7,28 @@
 	import jbmBold from 'jetbrains-mono/fonts/webfonts/JetBrainsMono-Bold.woff2';
 
 	let playground = $state(sections[0].examples[0].src);
+
+	const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+	// Scrollspy for the side panel: the last anchor above the viewport's
+	// upper third is the active one.
+	let active = $state('play');
+	let navOpen = $state(false);
+	function spy(node: HTMLElement) {
+		const ids = [...node.querySelectorAll<HTMLElement>('[id]')].map((el) => el.id);
+		const onScroll = () => {
+			const cut = window.innerHeight / 3;
+			let cur = ids[0];
+			for (const id of ids) {
+				const el = document.getElementById(id);
+				if (el && el.getBoundingClientRect().top <= cut) cur = id;
+			}
+			active = cur;
+		};
+		window.addEventListener('scroll', onScroll, { passive: true });
+		onScroll();
+		return { destroy: () => window.removeEventListener('scroll', onScroll) };
+	}
 </script>
 
 <svelte:head>
@@ -31,7 +53,29 @@
 	/>
 </svelte:head>
 
-<main>
+<button
+	class="burger"
+	aria-label={navOpen ? 'Close sections menu' : 'Open sections menu'}
+	aria-expanded={navOpen}
+	onclick={() => (navOpen = !navOpen)}>{navOpen ? '✕' : '☰'}</button
+>
+{#if navOpen}
+	<div class="backdrop" role="presentation" onclick={() => (navOpen = false)}></div>
+{/if}
+
+<!-- link clicks bubble here to close the drawer; keyboard users close via the toggle -->
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
+<nav aria-label="Sections" class:open={navOpen} onclick={() => (navOpen = false)}>
+	<a href="#play" class:active={active === 'play'}>## playground</a>
+	{#each sections as sec (sec.title)}
+		<a href="#{slug(sec.title)}" class:active={active === slug(sec.title)}>## {sec.title}</a>
+		{#each sec.examples as ex (ex.name)}
+			<a href="#ex-{ex.name}" class="ex" class:active={active === `ex-${ex.name}`}>/{ex.name}</a>
+		{/each}
+	{/each}
+</nav>
+
+<main use:spy>
 	<header>
 		<h1># mermaid, three ways</h1>
 		<p>
@@ -45,7 +89,7 @@
 		</p>
 	</header>
 
-	<section class="play">
+	<section class="play" id="play">
 		<h2>## playground</h2>
 		<div class="editor-box">
 			<span class="editor-title">Edit me</span>
@@ -62,11 +106,11 @@
 	</section>
 
 	{#each sections as sec (sec.title)}
-		<section>
+		<section id={slug(sec.title)}>
 			<h2>## {sec.title}</h2>
 			<p class="note">{sec.note}</p>
 			{#each sec.examples as ex (ex.name)}
-				<div class="example">
+				<div class="example" id="ex-{ex.name}">
 					<div class="ex-head">
 						<span class="ex-name">/{ex.name}</span>
 						<span class="dim">{ex.desc}</span>
@@ -93,6 +137,91 @@
 <style>
 	:global(html) {
 		scrollbar-gutter: stable;
+		scroll-behavior: smooth;
+	}
+
+	/* the side panel: a fixed TOC in the left gutter; the 90rem main column
+	   is centered, so the panel needs the viewport to be wider than both */
+	nav {
+		position: fixed;
+		top: 1.2rem;
+		left: max(0.8rem, calc(50vw - 45rem - 12.5rem));
+		width: 11rem;
+		max-height: calc(100vh - 2.4rem);
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
+		font-size: 0.78rem;
+	}
+	.burger {
+		display: none;
+		position: fixed;
+		top: 0.6rem;
+		right: 0.6rem;
+		z-index: 30;
+		font: inherit;
+		font-size: 1.1rem;
+		line-height: 1;
+		padding: 0.35rem 0.5rem;
+		border: 1px solid var(--dim);
+		border-radius: 4px;
+		background: var(--bg);
+		color: var(--fg);
+		cursor: pointer;
+	}
+	.backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 20;
+		background: rgba(0, 0, 0, 0.5);
+	}
+	/* below the gutter width the panel becomes a hamburger drawer */
+	@media (max-width: 116rem) {
+		nav {
+			display: none;
+		}
+		.burger {
+			display: block;
+		}
+		nav.open {
+			display: flex;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			max-height: none;
+			z-index: 25;
+			background: var(--bg);
+			border-right: 1px solid var(--dim);
+			padding: 1rem 0.6rem;
+			width: 12rem;
+		}
+	}
+	nav a {
+		color: var(--dim);
+		text-decoration: none;
+		padding: 0.05rem 0.4rem;
+		border-left: 2px solid transparent;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	nav a:not(.ex) {
+		color: var(--gold);
+		margin-top: 0.35rem;
+	}
+	nav a.ex {
+		padding-left: 1.2rem;
+	}
+	nav a:hover {
+		color: #00d7ff;
+	}
+	nav a.active {
+		border-left-color: var(--accent);
+		color: var(--accent);
+	}
+	:global([id]) {
+		scroll-margin-top: 1rem;
 	}
 	:global(body) {
 		--bg: #101014;
