@@ -72,7 +72,7 @@
 		{@render term(grok)}
 	</section>
 	<section>
-		<h4>lovely-mermaid <span class="dim">0.3.2</span></h4>
+		<h4>lovely-mermaid <span class="dim">0.3.3</span></h4>
 		{@render term(lovely)}
 	</section>
 </div>

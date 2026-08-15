@@ -7,7 +7,7 @@
       "dependencies": {
         "grok-mermaid": "0.2.3",
         "jetbrains-mono": "^1.0.6",
-        "lovely-mermaid": "0.3.2",
+        "lovely-mermaid": "0.3.3",
         "mermaid": "^11.16.1",
         "svelte-asciiart": "0.1.2",
       },
@@ -331,7 +331,7 @@
 
     "lovely-ansi-svg": ["lovely-ansi-svg@0.1.2", "", {}, "sha512-CWaADEUl0BDtlfWFfTbGBeRc5d2/JcvWNH8/LIw3AIK8sku/wZ96Fq+rMzN3OLTt8vC2/aDmoBKsFeidLgSyjQ=="],
 
-    "lovely-mermaid": ["lovely-mermaid@0.3.2", "", {}, "sha512-/tpiKaAOAy1Lw7k74pAL3sGdJgGbB8gaA3bey7C7jn53nDLHmMjpIl++rrEe76xNH5dAScf9IShWNGEzvM4pBQ=="],
+    "lovely-mermaid": ["lovely-mermaid@0.3.3", "", {}, "sha512-EMLJS934qwt2MLO/a5o+T/89HGbuXZPwmCpHIhHO+DVrm+y5tHlEHgpZzlC2o4yW/rFPHRFO9xSMafzqH4wH5A=="],
 
     "magic-string": ["magic-string@0.30.21", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.5.5" } }, "sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ=="],
 

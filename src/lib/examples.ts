@@ -38,6 +38,23 @@ export const sections: Section[] = [
   Out -.->|retry| In`
 			},
 			{
+				name: 'pipeline',
+				desc: 'retry loops at several depths',
+				src: `flowchart TD
+  push[Git push] --> ci{CI green?}
+  ci -->|yes| build[Build image]
+  ci -->|no| notify[Notify author]
+  build --> stage[Deploy staging]
+  stage --> smoke{Smoke tests}
+  smoke -->|flaky| stage
+  smoke -->|pass| prod[Deploy prod]
+  smoke -->|fail| notify
+  prod --> monitor[Monitor SLOs]
+  monitor -->|regression| roll[Rollback]
+  roll --> stage
+  notify --> push`
+			},
+			{
 				name: 'sequence',
 				desc: 'participants, messages, notes',
 				src: `sequenceDiagram
@@ -77,6 +94,14 @@ export const sections: Section[] = [
   MermaidArt "1" --> "*" Span : rows of`
 			},
 			{
+				name: 'emoji',
+				desc: 'CJK and ZWJ emoji widths measured correctly, boxes stay closed',
+				src: `flowchart LR
+  A[你好世界] --> B[👨‍👩‍👧 family]
+  B --> C[🚀 Launch]
+  C --> D[Done ✅]`
+			},
+			{
 				name: 'er',
 				desc: 'entities, relations, attributes',
 				src: `erDiagram
@@ -108,6 +133,27 @@ export const sections: Section[] = [
   classDef ok stroke:#22a06b,color:#22a06b
   classDef err fill:#8b0000,color:#ffdddd
   classDef cold fill:lightblue,color:#000000,font-weight:bold`
+			},
+			{
+				name: 'rainbow',
+				desc: 'a fully styled flowchart: six classDefs, a cycle, a click link',
+				src: `flowchart TD
+  A[User prompt]:::blue --> B{Need tools?}:::purple
+  B -->|yes| C[Inspect and edit]:::orange
+  B -->|no| D[Answer directly]:::cyan
+  C --> E[Run checks]:::yellow
+  E -->|pass| F[Verified result]:::green
+  E -->|fail| C
+  D --> F
+
+  classDef blue fill:#0ea5e9,stroke:#0369a1,color:#ffffff,font-weight:bold
+  classDef purple fill:#a855f7,stroke:#6b21a8,color:#ffffff,font-weight:bold
+  classDef orange fill:#f97316,stroke:#c2410c,color:#ffffff
+  classDef cyan fill:#06b6d4,stroke:#0e7490,color:#082f49
+  classDef yellow fill:#facc15,stroke:#a16207,color:#422006,font-weight:bold
+  classDef green fill:#22c55e,stroke:#15803d,color:#052e16,font-weight:bold
+
+  click F "https://pi.dev"`
 			},
 			{
 				name: 'composite',
@@ -164,19 +210,12 @@ flowchart LR
   click C "https://www.npmjs.com/package/lovely-mermaid"`
 			},
 			{
-				name: 'emoji',
-				desc: 'grapheme clusters — grok-mermaid overflows boxes on ZWJ emoji',
-				src: `flowchart LR
-  A[你好世界] --> B[👨‍👩‍👧 family]
-  B --> C[🚀 Launch]
-  C --> D[Done ✅]`
-			},
-			{
-				name: 'broken',
-				desc: 'a half-typed source — mermaid errors, grok-mermaid salvages, lovely-mermaid renders the prefix + warns',
+				name: 'streaming',
+				desc: 'a streamed source cut mid-label — mermaid errors out, both terminal renderers draw the prefix and warn',
 				src: `flowchart TD
-  A[Start --> B
-  C --> `
+  A[Fetch data] --> B{Cache hit?}
+  B -->|yes| C[Serve cached]
+  B -->|no| D[Query up`
 			}
 		]
 	},
