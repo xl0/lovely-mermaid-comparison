@@ -176,8 +176,16 @@
 		z-index: 20;
 		background: rgba(0, 0, 0, 0.5);
 	}
-	/* below the gutter width the panel becomes a hamburger drawer */
-	@media (max-width: 116rem) {
+	/* the panel is always up on large screens: main shifts right of it when
+	   the centering gutter alone is too narrow */
+	@media (min-width: 64rem) {
+		main {
+			margin-left: max(13.5rem, calc(50vw - 45rem));
+			margin-right: 1rem;
+		}
+	}
+	/* small screens: the panel becomes a hamburger drawer */
+	@media (max-width: 64rem) {
 		nav {
 			display: none;
 		}
