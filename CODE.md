@@ -2,7 +2,7 @@
 
 Single-page SvelteKit app comparing three Mermaid renderers side by side:
 mermaid.js (SVG), grok-mermaid 0.2.3 (npm — the published grok-build port),
-and lovely-mermaid 0.3.1 (npm). Deployed to GitHub Pages by
+and lovely-mermaid (npm, version shown in the panel headers). Deployed to GitHub Pages by
 `.github/workflows/pages.yml` on push (BASE_PATH from the repo name).
 
 Client-only (`ssr = false`, `prerender = true`, adapter-static with
