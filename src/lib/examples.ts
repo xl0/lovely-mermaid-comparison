@@ -155,6 +155,15 @@ flowchart LR
   CUSTOMER ||--o{ ORDER : places`
 			},
 			{
+				name: 'links',
+				desc: 'click/link URLs — lovely-mermaid emits OSC 8 terminal hyperlinks, grok-mermaid has no click',
+				src: `flowchart LR
+  A[lovely-mermaid] --> B[GitHub]
+  A --> C[npm]
+  click B "https://github.com/xl0/lovely-mermaid"
+  click C "https://www.npmjs.com/package/lovely-mermaid"`
+			},
+			{
 				name: 'emoji',
 				desc: 'grapheme clusters — grok-mermaid overflows boxes on ZWJ emoji',
 				src: `flowchart LR

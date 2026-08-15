@@ -25,8 +25,8 @@
 	"dependencies": {
 		"grok-mermaid": "0.2.3",
 		"jetbrains-mono": "^1.0.6",
-		"lovely-mermaid": "0.3.1",
+		"lovely-mermaid": "0.3.2",
 		"mermaid": "^11.16.1",
-		"svelte-asciiart": "0.1.1"
+		"svelte-asciiart": "0.1.2"
 	}
 }

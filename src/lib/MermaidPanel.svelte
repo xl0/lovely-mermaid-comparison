@@ -3,7 +3,14 @@
 
 	let { src }: { src: string } = $props();
 
-	mermaid.initialize({ startOnLoad: false, theme: 'dark', suppressErrorRendering: true });
+	// securityLevel loose so `click A "url"` renders as a link, like the OSC 8
+	// hyperlinks the terminal renderers emit. All sources ship with the app.
+	mermaid.initialize({
+		startOnLoad: false,
+		theme: 'dark',
+		suppressErrorRendering: true,
+		securityLevel: 'loose'
+	});
 
 	// mermaid.render needs a document-unique element id per call.
 	let uid = 0;
